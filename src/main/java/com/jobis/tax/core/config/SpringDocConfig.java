@@ -11,8 +11,8 @@ import org.springframework.context.annotation.Configuration;
 
 
 @OpenAPIDefinition(info = @Info(
-        title = "샘플 OpenAPI Doc",
-        description = "샘플 대해 설명하는 문서입니다.",
+        title = "OpenAPI Doc",
+        description = "삼쩜삼 기능을 제공합니다.",
         version = "1.0"),
         servers = @Server(url = "/", description = "Default server url"))
 @Configuration
