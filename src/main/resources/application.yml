@@ -1,11 +1,10 @@
 spring:
 #  config:
 #    import: open-api.yml
-  mvc:
-    pathmatch:
-      matching-strategy: ant_path_matcher
+#  mvc:
+#    pathmatch:
+#      matching-strategy: ant_path_matcher
   #    static-path-pattern: /static/**
-
   jpa:
     show-sql: true
     hibernate:
@@ -48,6 +47,14 @@ spring:
 #    init:
 #      data-locations: classpath:sql/sample-ranking-data.sql
 
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+    displayRequestDuration: true
+    operationsSorter: method
+    apisSorter: alpha
+  default-produces-media-type: application/json
+
 jwt:
   secret: c2lsdmVybmluZS10ZWNoLXNwcmluZy1ib290LWp3dC10dX
 
@@ -65,6 +72,7 @@ server:
   tomcat:
     threads:
       max: 2000
+  forward-headers-strategy: FRAMEWORK
 
 cache:
   maximum-size: 100
