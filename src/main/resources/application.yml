@@ -1,10 +1,8 @@
 spring:
 #  config:
 #    import: open-api.yml
-#  mvc:
-#    pathmatch:
-#      matching-strategy: ant_path_matcher
-  #    static-path-pattern: /static/**
+  mvc:
+    static-path-pattern: /static/**
   jpa:
     show-sql: true
     hibernate:
