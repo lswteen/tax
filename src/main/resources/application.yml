@@ -71,8 +71,3 @@ server:
 cache:
   maximum-size: 100
   duration: 3000
-
-logging:
-  level:
-    root: DEBUG
-    com.jobis.tax: DEBUG
