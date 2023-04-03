@@ -3,7 +3,6 @@ package com.jobis.tax.application.security.handler;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jobis.tax.core.response.ApiErrorResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.web.access.AccessDeniedHandler;
