@@ -31,8 +31,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers("/static/css/**, /static/js/**, *.ico"); // swagger
-        web.ignoring().antMatchers("/v2/api-docs", "/configuration/ui", "/swagger-resources", "/configuration/security", "/swagger-ui.html", "/webjars/**", "/swagger/**");
+        web.ignoring().antMatchers("/static/css/**", "/static/js/**", "*.ico", "/static/docs/**"); // swagger
+        web.ignoring().antMatchers("/v2/api-docs", "/v3/api-docs", "/configuration/ui", "/swagger-resources", "/configuration/security","/swagger-ui/index.html", "/swagger-ui.html", "/webjars/**", "/swagger-ui/**");
     }
 
     @Override
@@ -54,7 +54,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
                 .and()
                 .authorizeRequests()
-                .antMatchers("/signin", "/signup", "/reissuance", "/h2/**", "/swagger-ui/**", "/swagger-resources/**").permitAll()
+                .antMatchers("/test","/signin", "/signup", "/reissuance", "/h2/**", "/swagger-ui/**", "/swagger-resources/**").permitAll()
                 .anyRequest().authenticated()
 
                 .and()

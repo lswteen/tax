@@ -1,15 +1,20 @@
 package com.jobis.tax.application.controller;
 
-import com.jobis.tax.application.response.UserResponse;
-import com.jobis.tax.application.security.dto.PrincipalDetails;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.RequestMapping;
+import com.jobis.tax.application.service.UserAppService;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping(value = "/szs")
+@RequiredArgsConstructor
+@Tag(name = "01.Test")
 public class UserController {
-    public UserResponse me(@AuthenticationPrincipal PrincipalDetails principal){
-        return null;
+
+    private final UserAppService userAppService;
+
+    @GetMapping("/test")
+    public String hello(String abc){
+        return "abc";
     }
 }

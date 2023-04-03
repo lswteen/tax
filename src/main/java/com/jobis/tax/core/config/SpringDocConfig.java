@@ -4,6 +4,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
+import springfox.documentation.oas.annotations.EnableOpenApi;
 import springfox.documentation.service.*;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spi.service.contexts.SecurityContext;
@@ -14,12 +15,12 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-@EnableSwagger2
+@EnableOpenApi
 @Configuration
-public class SwaggerConfig {
+public class SpringDocConfig {
     @Bean
     public Docket api() {
-        return new Docket(DocumentationType.SWAGGER_2)
+        return new Docket(DocumentationType.OAS_30)
                 .select()
                 .apis(RequestHandlerSelectors.any())
                 .paths(PathSelectors.any())
@@ -29,13 +30,12 @@ public class SwaggerConfig {
                 .securitySchemes(Arrays.asList(apiKey()));
     }
 
-
     private ApiInfo apiInfo() {
-        Contact contact = new Contact("이순우","", "lswteen@naver.com");
+        Contact contact = new Contact("백승호","", "if_you_like@naver.com");
 
         return new ApiInfo(
-                "303",
-                "과제 프로젝트",
+                "백패커/아이디어스 과제",
+                "과제용으로 제작한 프로젝트입니다.",
                 "0.0.1",
                 "",
                 contact,
@@ -64,5 +64,4 @@ public class SwaggerConfig {
         authorizationScopes[0] = authorizationScope;
         return Arrays.asList(new SecurityReference("JWT", authorizationScopes));
     }
-
 }

@@ -1,6 +1,11 @@
 spring:
 #  config:
 #    import: open-api.yml
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+  #    static-path-pattern: /static/**
+
   jpa:
     show-sql: true
     hibernate:
@@ -13,7 +18,6 @@ spring:
     database-platform: org.hibernate.dialect.H2Dialect
     defer-datasource-initialization: true
     open-in-view: false
-
   h2:
     console:
       path: /h2
@@ -43,8 +47,6 @@ spring:
 #  sql:
 #    init:
 #      data-locations: classpath:sql/sample-ranking-data.sql
-  mvc:
-    static-path-pattern: /static/**
 
 jwt:
   secret: c2lsdmVybmluZS10ZWNoLXNwcmluZy1ib290LWp3dC10dX
