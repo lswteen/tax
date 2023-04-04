@@ -29,9 +29,10 @@ public class SignUpRequest {
     private String password;
     @NotNull(message = "전화번호는 필수 항목입니다.")
     private String phoneNumber;
-    @Email(message = "이메일 형식이 아닙니다.")
-    @NotNull(message = "이메일은 필수 항목입니다.")
-    private String email;
+    @NotNull(message = "아이디는 필수 항목입니다.")
+    private String userId;
+    @NotNull(message= "주민번호는 필수 항목입니다.")
+    private String regNo;
     @EnumValid(enumClass = UserGender.class, message = "성별은 'MALE' 또는 'FEMALE'으로 표현해 주세요.")
     private String gender;
 

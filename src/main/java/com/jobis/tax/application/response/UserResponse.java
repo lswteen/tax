@@ -19,7 +19,8 @@ public class UserResponse {
     private String name;
     private String nickname;
     private String phoneNumber;
-    private String email;
+    private String userId;
+    private String regNo;
     private String gender;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime createdAt;

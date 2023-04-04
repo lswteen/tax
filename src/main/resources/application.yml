@@ -41,7 +41,7 @@ spring:
       readOnly: true
 #  sql:
 #    init:
-#      data-locations: classpath:sql/sample-ranking-data.sql
+#      data-locations: classpath:sql/sample-data.sql
 
 springdoc:
   swagger-ui:

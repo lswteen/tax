@@ -3,6 +3,7 @@ package com.jobis.tax.application.service;
 import com.jobis.tax.application.request.SignInRequest;
 import com.jobis.tax.application.request.SignUpRequest;
 import com.jobis.tax.application.request.TokenRequest;
+import com.jobis.tax.application.response.ScrapResponse;
 import com.jobis.tax.application.response.TokenResponse;
 import com.jobis.tax.application.response.UserResponse;
 import com.jobis.tax.application.security.dto.PrincipalDetails;
@@ -32,7 +33,7 @@ public class UserAppService {
     public TokenResponse signIn(SignInRequest signInRequest) {
         // 1. ID/PW 로 AuthenticationToken 생성
         UsernamePasswordAuthenticationToken authenticationToken =
-                new UsernamePasswordAuthenticationToken(signInRequest.getEmail(), signInRequest.getPassword());
+                new UsernamePasswordAuthenticationToken(signInRequest.getUserId(), signInRequest.getPassword());
 
         // 2. 사용자 검증
         Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
@@ -77,7 +78,8 @@ public class UserAppService {
         signUpRequest.validation();
 
         User user = User.signUpBuilder()
-                .email(signUpRequest.getEmail())
+                .userId(signUpRequest.getUserId())
+                .regNo(signUpRequest.getRegNo())
                 .name(signUpRequest.getName())
                 .nickname(signUpRequest.getNickname())
                 .password(passwordEncoder.encode(signUpRequest.getPassword()))
@@ -90,7 +92,8 @@ public class UserAppService {
         return UserResponse.builder()
                 .id(newUser.getId())
                 .gender(newUser.getGenderAsString())
-                .email(newUser.getEmail())
+                .userId(newUser.getUserId())
+                .regNo(newUser.getRegNo())
                 .name(newUser.getName())
                 .nickname(newUser.getNickname())
                 .phoneNumber(newUser.getPhoneNumber())
@@ -110,12 +113,18 @@ public class UserAppService {
         return UserResponse.builder()
                 .id(user.getId())
                 .gender(user.getGenderAsString())
-                .email(user.getEmail())
+                .userId(user.getUserId())
                 .name(user.getName())
                 .nickname(user.getNickname())
                 .phoneNumber(user.getPhoneNumber())
                 .createdAt(user.getCreatedAt())
                 .updatedAt(user.getUpdatedAt())
                 .build();
+    }
+
+    public ScrapResponse scrap(PrincipalDetails principal){
+
+        return null;
+
     }
 }

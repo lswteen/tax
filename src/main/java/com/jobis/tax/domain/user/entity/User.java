@@ -29,6 +29,9 @@ public class User {
     @Column
     private String name;
 
+    @Column(name="reg_no")
+    private String regNo;
+
     @Column
     private String nickname;
 
@@ -39,7 +42,7 @@ public class User {
     private String phoneNumber;
 
     @Column(unique = true)
-    private String email;
+    private String userId;
 
     @Column
     @Enumerated(EnumType.STRING)
@@ -66,12 +69,13 @@ public class User {
     private LocalDateTime updatedAt;
 
     @Builder(builderMethodName = "signUpBuilder")
-    public User(String name, String nickname, String password, String phoneNumber, String email, String gender) {
+    public User(String name, String nickname, String password, String phoneNumber, String userId, String regNo, String gender) {
         this.name = name;
         this.nickname = nickname;
         this.password = password;
         this.phoneNumber = phoneNumber;
-        this.email = email;
+        this.userId = userId;
+        this.regNo = regNo;
         this.gender = UserGender.convertFrom(gender);
         this.roles = Stream.of(UserRole.USER)
                 .collect(Collectors.toSet());
