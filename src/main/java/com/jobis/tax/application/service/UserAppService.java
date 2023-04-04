@@ -10,6 +10,7 @@ import com.jobis.tax.application.security.dto.PrincipalDetails;
 import com.jobis.tax.application.security.provider.TokenProvider;
 import com.jobis.tax.core.exception.ApiException;
 import com.jobis.tax.core.type.ServiceErrorType;
+import com.jobis.tax.domain.scrap.external.Results;
 import com.jobis.tax.domain.scrap.service.ScrapService;
 import com.jobis.tax.domain.user.entity.RefreshToken;
 import com.jobis.tax.domain.user.entity.User;
@@ -134,13 +135,13 @@ public class UserAppService {
                 .build();
     }
 
-    public ScrapResponse scrap(PrincipalDetails principal){
-        User user = userService.getById(principal.getUser().getId());
+    public Results scrap(PrincipalDetails principal){
+        //User user = userService.getById(principal.getUser().getId());
         Map<String, String> map = new HashMap<>();
         map.put("name","홍길동");
         map.put("regNo","860824-1655068");
-        scrapService.userInfoScrap(map);
-        return null;
+        Results results = scrapService.userInfoScrap();
+        return results;
 
     }
 }

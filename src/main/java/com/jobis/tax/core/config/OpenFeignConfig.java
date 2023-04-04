@@ -1,17 +1,21 @@
 package com.jobis.tax.core.config;
 
+import feign.Request;
 import feign.Retryer;
 import feign.codec.ErrorDecoder;
 import org.springframework.cloud.openfeign.EnableFeignClients;
+import org.springframework.cloud.openfeign.FeignClientBuilder;
 import org.springframework.cloud.openfeign.FeignFormatterRegistrar;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.format.datetime.standard.DateTimeFormatterRegistrar;
 
+import java.util.concurrent.TimeUnit;
+
 import static java.lang.String.format;
 
 @Configuration
-@EnableFeignClients("com.jobis.tax.domain")
+@EnableFeignClients("com.jobis.tax")
 public class OpenFeignConfig {
     @Bean
     FeignFormatterRegistrar dateTimeFormatterRegistrar() {
@@ -22,14 +26,21 @@ public class OpenFeignConfig {
         };
     }
 
+
+    @Bean
+    public Request.Options requestOptions() {
+        return new Request.Options(20_000, TimeUnit.MILLISECONDS, 20_000, TimeUnit.MILLISECONDS, true);
+    }
+
+
     /**
-     * 재시도는 100ms를 시작으로 최대 1초 까지 재시도 하고, 최대 3번으로 재시도 하도록 설정
-     * 최초 100ms이후, 1.5를 곱하면서 재시도
+     * 재시도는 20000ms를 시작으로 최대 1초 까지 재시도 하고, 최대 3번으로 재시도 하도록 설정
+     * 최초 20000ms이후, 1.5를 곱하면서 재시도
      * @return
      */
     @Bean
     Retryer retryer() {
-        return new Retryer.Default(20000, 1_000, 3);
+        return new Retryer.Default(20000, 20_000, 3);
     }
 
     @Bean

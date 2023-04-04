@@ -1,9 +1,11 @@
 package com.jobis.tax.domain.scrap.external;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.json.simple.JSONObject;
+
+import java.util.List;
+import java.util.Map;
+
 
 @Getter
 @Builder
@@ -11,6 +13,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Results {
     private String status;
-    private Object data;
-    private Object errors;
+    private JSONObject errors;
+
 }
