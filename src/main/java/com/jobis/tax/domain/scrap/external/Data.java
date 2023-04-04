@@ -3,9 +3,6 @@ package com.jobis.tax.domain.scrap.external;
 import lombok.*;
 import org.json.simple.JSONObject;
 
-import java.util.List;
-import java.util.Map;
-
 @ToString
 @Getter
 @Builder

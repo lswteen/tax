@@ -76,21 +76,6 @@ class ScrapServiceTest {
         String error = (String) jsonObject.get("error");
         System.out.println("============> error : "+error);
 
-
-
-//        //data 영역
-//        jsonObject.get("appVer");
-//        jsonObject.get("hostNm");
-//        jsonObject.get("workerResDt");
-//        jsonObject.get("workerReqDt");
-//
-//        //data > jsonList 영역
-//        JSONObject jsonListObj = (JSONObject)jsonObject.get("jsonList");
-//        jsonListObj.get("errMsg");
-//        jsonListObj.get("company");
-//        jsonListObj.get("svcCd");
-
-
         //db저장 호출
     }
 
