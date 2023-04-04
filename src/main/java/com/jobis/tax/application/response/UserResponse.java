@@ -19,7 +19,7 @@ public class UserResponse {
     private String name;
     private String nickname;
     private String phoneNumber;
-    private String userId;
+    private String email;
     private String regNo;
     private String gender;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")

@@ -16,10 +16,9 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-@ToString
 @Entity(name = "users")
 @Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor
 public class User {
     @Id
     @Column
@@ -42,7 +41,7 @@ public class User {
     private String phoneNumber;
 
     @Column(unique = true)
-    private String userId;
+    private String email;
 
     @Column
     @Enumerated(EnumType.STRING)
@@ -69,12 +68,12 @@ public class User {
     private LocalDateTime updatedAt;
 
     @Builder(builderMethodName = "signUpBuilder")
-    public User(String name, String nickname, String password, String phoneNumber, String userId, String regNo, String gender) {
+    public User(String name, String nickname, String password, String phoneNumber, String email, String regNo, String gender) {
         this.name = name;
         this.nickname = nickname;
         this.password = password;
         this.phoneNumber = phoneNumber;
-        this.userId = userId;
+        this.email = email;
         this.regNo = regNo;
         this.gender = UserGender.convertFrom(gender);
         this.roles = Stream.of(UserRole.USER)

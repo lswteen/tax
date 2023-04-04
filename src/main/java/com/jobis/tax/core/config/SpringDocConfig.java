@@ -1,7 +1,9 @@
 package com.jobis.tax.core.config;
 
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
+import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
 import io.swagger.v3.oas.annotations.info.Info;
+import io.swagger.v3.oas.annotations.security.SecurityScheme;
 import io.swagger.v3.oas.annotations.servers.Server;
 import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.oas.models.responses.ApiResponses;
@@ -15,6 +17,12 @@ import org.springframework.context.annotation.Configuration;
         description = "삼쩜삼 기능을 제공합니다.",
         version = "1.0"),
         servers = @Server(url = "/", description = "Default server url"))
+@SecurityScheme(
+        name = "Bearer Authentication",
+        type = SecuritySchemeType.HTTP,
+        bearerFormat = "JWT",
+        scheme = "bearer"
+)
 @Configuration
 public class SpringDocConfig {
     @Bean

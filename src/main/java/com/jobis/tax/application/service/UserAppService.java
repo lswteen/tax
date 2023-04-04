@@ -10,10 +10,13 @@ import com.jobis.tax.application.security.dto.PrincipalDetails;
 import com.jobis.tax.application.security.provider.TokenProvider;
 import com.jobis.tax.core.exception.ApiException;
 import com.jobis.tax.core.type.ServiceErrorType;
+import com.jobis.tax.domain.scrap.service.ScrapService;
 import com.jobis.tax.domain.user.entity.RefreshToken;
 import com.jobis.tax.domain.user.entity.User;
 import com.jobis.tax.domain.user.service.UserService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
@@ -21,26 +24,35 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashMap;
+import java.util.Map;
+
+@Slf4j
 @Service
-@RequiredArgsConstructor
 public class UserAppService {
-    private final UserService userService;
-    private final AuthenticationManagerBuilder authenticationManagerBuilder;
-    private final TokenProvider tokenProvider;
-    private final PasswordEncoder passwordEncoder;
+    @Autowired
+    private UserService userService;
+    @Autowired
+    private ScrapService scrapService;
+    @Autowired
+    private AuthenticationManagerBuilder authenticationManagerBuilder;
+    @Autowired
+    private TokenProvider tokenProvider;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Transactional
     public TokenResponse signIn(SignInRequest signInRequest) {
         // 1. ID/PW 로 AuthenticationToken 생성
         UsernamePasswordAuthenticationToken authenticationToken =
-                new UsernamePasswordAuthenticationToken(signInRequest.getUserId(), signInRequest.getPassword());
-
+                new UsernamePasswordAuthenticationToken(signInRequest.getEmail(), signInRequest.getPassword());
+        log.info("====authenticationToken : "+authenticationToken);
         // 2. 사용자 검증
         Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
-
+        log.info("====authentication : "+authentication);
         // 3.JWT 토큰 생성
         TokenResponse customToken = tokenProvider.generateToken(authentication);
-
+        log.info("====customToken : "+customToken);
         // 4. RefreshToken 저장
         userService.createRefreshToken(authentication, customToken.getRefreshToken());
 
@@ -78,7 +90,7 @@ public class UserAppService {
         signUpRequest.validation();
 
         User user = User.signUpBuilder()
-                .userId(signUpRequest.getUserId())
+                .email(signUpRequest.getEmail())
                 .regNo(signUpRequest.getRegNo())
                 .name(signUpRequest.getName())
                 .nickname(signUpRequest.getNickname())
@@ -92,7 +104,7 @@ public class UserAppService {
         return UserResponse.builder()
                 .id(newUser.getId())
                 .gender(newUser.getGenderAsString())
-                .userId(newUser.getUserId())
+                .email(newUser.getEmail())
                 .regNo(newUser.getRegNo())
                 .name(newUser.getName())
                 .nickname(newUser.getNickname())
@@ -113,7 +125,7 @@ public class UserAppService {
         return UserResponse.builder()
                 .id(user.getId())
                 .gender(user.getGenderAsString())
-                .userId(user.getUserId())
+                .email(user.getEmail())
                 .name(user.getName())
                 .nickname(user.getNickname())
                 .phoneNumber(user.getPhoneNumber())
@@ -123,7 +135,11 @@ public class UserAppService {
     }
 
     public ScrapResponse scrap(PrincipalDetails principal){
-
+        User user = userService.getById(principal.getUser().getId());
+        Map<String, String> map = new HashMap<>();
+        map.put("name","홍길동");
+        map.put("regNo","860824-1655068");
+        scrapService.userInfoScrap(map);
         return null;
 
     }

@@ -4,8 +4,10 @@ import com.jobis.tax.application.response.ScrapResponse;
 import com.jobis.tax.application.response.UserResponse;
 import com.jobis.tax.application.security.dto.PrincipalDetails;
 import com.jobis.tax.application.service.UserAppService;
+import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -22,13 +24,11 @@ public class UserController {
 
     @Operation(
             summary = "회원 정보",
-            parameters = {
-                    @Parameter(name = "principal", description = "PrincipalDetails")
-            },
             description = "회원정보 기능을 제공합니다."
     )
+    @SecurityRequirement(name = "Bearer Authentication")
     @GetMapping("/szs/me")
-    public UserResponse me(@AuthenticationPrincipal PrincipalDetails principal) {
+    public UserResponse me(@Parameter(hidden = true) @AuthenticationPrincipal PrincipalDetails principal) {
         return userAppService.me(principal);
     }
 
@@ -36,8 +36,9 @@ public class UserController {
             summary = "스크랩",
             description = "회원 토큰정보 정보 스크랩 기능을 제공합니다."
     )
+    @SecurityRequirement(name = "Bearer Authentication")
     @PostMapping("/szs/scrap")
-    public ScrapResponse scrap(@AuthenticationPrincipal PrincipalDetails principal){
-        return null;
+    public ScrapResponse scrap(@Parameter(hidden = true) @AuthenticationPrincipal PrincipalDetails principal){
+        return userAppService.scrap(principal);
     }
 }

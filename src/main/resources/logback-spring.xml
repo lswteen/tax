@@ -10,7 +10,7 @@
         </encoder>
     </appender>
 
-    <logger name="com.idus" level="DEBUG" />
+    <logger name="com.jobis.tax" level="DEBUG" />
 
     <logger name="org.hibernate.SQL" level="DEBUG" />
     <logger name="org.hibernate.tool.hbm2ddl" level="DEBUG"/>

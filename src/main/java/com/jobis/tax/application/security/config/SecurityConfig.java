@@ -5,6 +5,7 @@ import com.jobis.tax.application.security.fillter.JwtFilter;
 import com.jobis.tax.application.security.handler.JwtAccessDeniedHandler;
 import com.jobis.tax.application.security.provider.TokenProvider;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -18,11 +19,14 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @Configuration
 @EnableWebSecurity
-@RequiredArgsConstructor
+
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-    private final TokenProvider tokenProvider;
-    private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
-    private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
+    @Autowired
+    private TokenProvider tokenProvider;
+    @Autowired
+    private JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
+    @Autowired
+    private JwtAccessDeniedHandler jwtAccessDeniedHandler;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -30,7 +34,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Override
-    public void configure(WebSecurity web) throws Exception {
+    public void configure(WebSecurity web) {
         web.ignoring().antMatchers("/static/css/**", "/static/js/**", "*.ico", "/static/docs/**"); // swagger
         web.ignoring().antMatchers("/v2/api-docs/**", "/v3/api-docs/**", "/configuration/ui",
                 "/swagger-resources/**", "/configuration/security","/swagger-ui/index.html",
@@ -56,7 +60,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
                 .and()
                 .authorizeRequests()
-                .antMatchers("/szs/signin", "/szs/signup", "/reissuance", "/h2/**", "/swagger-ui/**", "/swagger-resources/**").permitAll()
+                .antMatchers("/szs/login", "/szs/signup", "/szs/reissuance", "/h2/**", "/swagger-ui/**", "/swagger-resources/**").permitAll()
                 .anyRequest().authenticated()
 
                 .and()

@@ -8,6 +8,8 @@ import com.jobis.tax.application.response.UserResponse;
 import com.jobis.tax.application.security.dto.PrincipalDetails;
 import com.jobis.tax.application.service.UserAppService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -56,8 +58,9 @@ public class AuthController {
             summary = "로그아웃",
             description = "로그아웃 기능을 제공합니다."
     )
+    @SecurityRequirement(name = "Bearer Authentication")
     @DeleteMapping("/szs/signout")
-    public void signOut(@AuthenticationPrincipal PrincipalDetails principal) {
+    public void signOut(@Parameter(hidden = true) @AuthenticationPrincipal PrincipalDetails principal) {
         userAppService.signOut(principal);
     }
 

@@ -26,7 +26,7 @@ public class UserService {
     private final RefreshTokenRepository refreshTokenRepository;
 
     public User getByEmail(String userId) {
-        return userRepository.findByUserId(userId)
+        return userRepository.findByEmail(userId)
                 .orElseThrow(() -> new ApiException(ServiceErrorType.NOT_FOUND));
     }
 
@@ -70,7 +70,19 @@ public class UserService {
         refreshTokenRepository.deleteAll(refreshTokens);
     }
 
-    public Page<User> getSearchByPageable(Pageable pageable) {
-        return userRepository.findAll(pageable);
+    public Page<User> getSearchByPageable(String name, String email, Pageable pageable) {
+        Page<User> user;
+
+        if (Objects.nonNull(name) && Objects.nonNull(email)) {
+            user = userRepository.findByNameContainingOrEmailContaining(name, email, pageable);
+        } else if (Objects.nonNull(email)) {
+            user = userRepository.findByEmailContaining(email, pageable);
+        } else if (Objects.nonNull(name)) {
+            user = userRepository.findByNameContaining(name, pageable);
+        } else {
+            user = userRepository.findAll(pageable);
+        }
+
+        return user;
     }
 }
