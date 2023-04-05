@@ -5,6 +5,7 @@ spring:
 #    static-path-pattern: /static/**
 
   jpa:
+    show-sql: true
     open-in-view: false
     hibernate:
       ddl-auto: create-drop
@@ -39,9 +40,6 @@ spring:
       minimumIdle: 5
       poolName: readdbjobis
       readOnly: true
-#  sql:
-#    init:
-#      data-locations: classpath:sql/data.sql
 
 springdoc:
   swagger-ui:

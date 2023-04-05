@@ -47,16 +47,12 @@ public class UserAppService {
         // 1. ID/PW 로 AuthenticationToken 생성
         UsernamePasswordAuthenticationToken authenticationToken =
                 new UsernamePasswordAuthenticationToken(signInRequest.getEmail(), signInRequest.getPassword());
-        log.info("====authenticationToken : "+authenticationToken);
         // 2. 사용자 검증
         Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
-        log.info("====authentication : "+authentication);
         // 3.JWT 토큰 생성
         TokenResponse customToken = tokenProvider.generateToken(authentication);
-        log.info("====customToken : "+customToken);
         // 4. RefreshToken 저장
         userService.createRefreshToken(authentication, customToken.getRefreshToken());
-
         // 5. 토큰 발급
         return customToken;
     }
