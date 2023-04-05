@@ -10,15 +10,13 @@ import com.jobis.tax.application.security.dto.PrincipalDetails;
 import com.jobis.tax.application.security.provider.TokenProvider;
 import com.jobis.tax.core.exception.ApiException;
 import com.jobis.tax.core.type.ServiceErrorType;
-import com.jobis.tax.domain.scrap.entity.TaxInformation;
-import com.jobis.tax.domain.scrap.service.IncomeTaxInfo;
 import com.jobis.tax.domain.scrap.service.RefundCalculation;
 import com.jobis.tax.domain.scrap.service.ScrapService;
 import com.jobis.tax.domain.user.entity.RefreshToken;
 import com.jobis.tax.domain.user.entity.User;
 import com.jobis.tax.domain.user.service.UserService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
@@ -26,25 +24,16 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashMap;
-import java.util.Map;
-
 @Slf4j
 @Service
+@RequiredArgsConstructor
 public class UserAppService {
-    @Autowired
-    private UserService userService;
-    @Autowired
-    private ScrapService scrapService;
-    @Autowired
-    private RefundCalculation refundCalculation;
-
-    @Autowired
-    private AuthenticationManagerBuilder authenticationManagerBuilder;
-    @Autowired
-    private TokenProvider tokenProvider;
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+    private final UserService userService;
+    private final ScrapService scrapService;
+    private final RefundCalculation refundCalculation;
+    private final AuthenticationManagerBuilder authenticationManagerBuilder;
+    private final TokenProvider tokenProvider;
+    private final PasswordEncoder passwordEncoder;
 
     @Transactional
     public TokenResponse signIn(SignInRequest signInRequest) {
@@ -128,6 +117,7 @@ public class UserAppService {
                 .gender(user.getGenderAsString())
                 .email(user.getEmail())
                 .name(user.getName())
+                .regNo(user.getRegNo())
                 .nickname(user.getNickname())
                 .phoneNumber(user.getPhoneNumber())
                 .createdAt(user.getCreatedAt())

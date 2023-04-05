@@ -1,20 +1,11 @@
 package com.jobis.tax.domain.scrap.service;
 
-import com.jobis.tax.domain.scrap.external.Data;
 import com.jobis.tax.domain.scrap.external.HttpClient;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.io.IOException;
-import java.math.BigDecimal;
 import java.text.DecimalFormat;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 @SpringBootTest
 class ScrapServiceTest {
@@ -31,6 +22,7 @@ class ScrapServiceTest {
             //jsonString = httpClient.sendPost("김둘리","921108-1582816");
             //jsonString = httpClient.sendPost("마징가","880601-2455116");
             //jsonString = httpClient.sendPost("베지터","910411-1656116");
+            //jsonString = httpClient.sendPost("손오공","820326-2715702");
     }
 
 

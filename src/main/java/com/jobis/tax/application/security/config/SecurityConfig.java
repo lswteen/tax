@@ -4,6 +4,7 @@ import com.jobis.tax.application.security.entrypoint.JwtAuthenticationEntryPoint
 import com.jobis.tax.application.security.fillter.JwtFilter;
 import com.jobis.tax.application.security.handler.JwtAccessDeniedHandler;
 import com.jobis.tax.application.security.provider.TokenProvider;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,14 +19,13 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @Configuration
 @EnableWebSecurity
-
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
-    private TokenProvider tokenProvider;
+    private  TokenProvider tokenProvider;
     @Autowired
-    private JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
+    private  JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
     @Autowired
-    private JwtAccessDeniedHandler jwtAccessDeniedHandler;
+    private  JwtAccessDeniedHandler jwtAccessDeniedHandler;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -59,7 +59,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
                 .and()
                 .authorizeRequests()
-                .antMatchers("/szs/login", "/szs/scrap", "/szs/signup", "/szs/reissuance", "/h2/**", "/swagger-ui/**", "/swagger-resources/**").permitAll()
+                .antMatchers("/szs/login", "/szs/signup", "/szs/reissuance", "/h2/**", "/swagger-ui/**", "/swagger-resources/**").permitAll()
                 .anyRequest().authenticated()
 
                 .and()

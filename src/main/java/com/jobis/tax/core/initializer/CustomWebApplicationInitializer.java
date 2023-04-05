@@ -23,16 +23,29 @@ public class CustomWebApplicationInitializer {
 
             @Override
             public void run(ApplicationArguments args){
-                User user = User.signUpBuilder()
-                        .email("user@gmail.com")
+
+
+                User hong = User.signUpBuilder()
+                        .email("hong@gmail.com")
                         .password(passwordEncoder.encode("abcde가A1!"))
-                        .name("이순우")
-                        .regNo("8012261266767")
+                        .name("홍길동")
+                        .regNo("8608241655068")
                         .phoneNumber("01012345678")
                         .nickname("renzo")
                         .build();
 
-                userRepository.save(user);
+                userRepository.save(hong);
+
+                User kim = User.signUpBuilder()
+                        .email("kim@gmail.com")
+                        .password(passwordEncoder.encode("abcde가A1!"))
+                        .name("김둘리")
+                        .regNo("9211081582816")
+                        .phoneNumber("01012345678")
+                        .nickname("renzo")
+                        .build();
+
+                userRepository.save(kim);
             }
         };
     }

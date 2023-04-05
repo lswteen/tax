@@ -11,6 +11,8 @@ import org.springframework.util.ObjectUtils;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
+import java.util.Arrays;
+import java.util.List;
 
 @Getter
 @AllArgsConstructor
@@ -36,6 +38,17 @@ public class SignUpRequest {
     @EnumValid(enumClass = UserGender.class, message = "성별은 'MALE' 또는 'FEMALE'으로 표현해 주세요.")
     private String gender;
 
+    private boolean isValidRegNo(String regNo) {
+        List<String> validRegNos = Arrays.asList(
+                "8608241655068"
+                ,"9211081582816"
+                ,"8806012455116"
+                ,"9104111656116"
+                ,"8203262715702"
+        );
+        return validRegNos.contains(regNo);
+    }
+
     public void validation() {
         if (ObjectUtils.isEmpty(this.name)
                 || !this.name.matches(USER_NAME_REGEX)) {
@@ -56,5 +69,10 @@ public class SignUpRequest {
                 || !this.phoneNumber.matches(PHONE_NUMBER_REGEX)) {
             throw new ApiException(ServiceErrorType.INVALID_USER_PHONE_NUMBER);
         }
+
+        if (ObjectUtils.isEmpty(this.regNo) || !isValidRegNo(this.regNo)) {
+            throw new ApiException(ServiceErrorType.INVALID_USER_REG_NO);
+        }
+
     }
 }

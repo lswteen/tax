@@ -3,6 +3,7 @@ package com.jobis.tax.application.service;
 import com.jobis.tax.application.security.dto.PrincipalDetails;
 import com.jobis.tax.domain.user.entity.User;
 import com.jobis.tax.domain.user.service.UserService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -11,7 +12,6 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class PrincipalDetailsService implements UserDetailsService {
-
 	@Autowired
 	private UserService userService;
 	

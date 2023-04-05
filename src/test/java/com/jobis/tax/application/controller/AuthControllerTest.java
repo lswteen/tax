@@ -29,8 +29,8 @@ class AuthControllerTest {
 
     @Test
     void signUp_success() throws Exception {
-        SignUpRequest signUpRequest = new SignUpRequest("테스트",
-                "dev", "abcde가A1!", "01012345678", "renzo@gmail.com","8012251231231", "MALE");
+        SignUpRequest signUpRequest = new SignUpRequest("마징가",
+                "dev", "abcde가A1!", "01012345678", "ma@gmail.com","8806012455116", "MALE");
 
         mockMvc.perform(post("/szs/signup")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -49,7 +49,7 @@ class AuthControllerTest {
 
 
     private MvcResult signIn() throws Exception {
-        SignInRequest signInRequest = new SignInRequest("user@gmail.com", "abcde가A1!");
+        SignInRequest signInRequest = new SignInRequest("hong@gmail.com", "abcde가A1!");
 
         return mockMvc.perform(post("/szs/login")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -66,7 +66,7 @@ class AuthControllerTest {
 
     @Test
     void signIn_unauthorized() throws Exception {
-        SignInRequest signInRequest = new SignInRequest("user@gmail.com", "ww!");
+        SignInRequest signInRequest = new SignInRequest("hong@gmail.com", "ww!");
 
         mockMvc.perform(post("/szs/login")
                         .contentType(MediaType.APPLICATION_JSON)
