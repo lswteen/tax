@@ -1,11 +1,9 @@
 package com.jobis.tax.application.controller;
 
-import com.jobis.tax.application.response.ScrapResponse;
 import com.jobis.tax.application.response.UserResponse;
 import com.jobis.tax.application.security.dto.PrincipalDetails;
 import com.jobis.tax.application.service.UserAppService;
-import com.jobis.tax.domain.scrap.external.Results;
-import io.swagger.v3.oas.annotations.Hidden;
+import com.jobis.tax.domain.scrap.entity.TaxInformation;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -39,7 +37,7 @@ public class UserController {
     )
     @SecurityRequirement(name = "Bearer Authentication")
     @PostMapping("/szs/scrap")
-    public Results scrap(@Parameter(hidden = true) @AuthenticationPrincipal PrincipalDetails principal){
+    public TaxInformation scrap(@Parameter(hidden = true) @AuthenticationPrincipal PrincipalDetails principal){
         return userAppService.scrap(principal);
     }
 }

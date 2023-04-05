@@ -3,8 +3,6 @@ package com.jobis.tax.application.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jobis.tax.application.request.SignInRequest;
 import com.jobis.tax.application.request.SignUpRequest;
-import com.jobis.tax.domain.scrap.external.SzsApiClient;
-import com.jobis.tax.domain.scrap.service.ScrapService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -13,9 +11,6 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
-
-import java.util.HashMap;
-import java.util.Map;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;

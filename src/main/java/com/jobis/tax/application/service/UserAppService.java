@@ -3,19 +3,17 @@ package com.jobis.tax.application.service;
 import com.jobis.tax.application.request.SignInRequest;
 import com.jobis.tax.application.request.SignUpRequest;
 import com.jobis.tax.application.request.TokenRequest;
-import com.jobis.tax.application.response.ScrapResponse;
 import com.jobis.tax.application.response.TokenResponse;
 import com.jobis.tax.application.response.UserResponse;
 import com.jobis.tax.application.security.dto.PrincipalDetails;
 import com.jobis.tax.application.security.provider.TokenProvider;
 import com.jobis.tax.core.exception.ApiException;
 import com.jobis.tax.core.type.ServiceErrorType;
-import com.jobis.tax.domain.scrap.external.Results;
+import com.jobis.tax.domain.scrap.entity.TaxInformation;
 import com.jobis.tax.domain.scrap.service.ScrapService;
 import com.jobis.tax.domain.user.entity.RefreshToken;
 import com.jobis.tax.domain.user.entity.User;
 import com.jobis.tax.domain.user.service.UserService;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -131,13 +129,9 @@ public class UserAppService {
                 .build();
     }
 
-    public Results scrap(PrincipalDetails principal){
-        //User user = userService.getById(principal.getUser().getId());
-        Map<String, String> map = new HashMap<>();
-        map.put("name","홍길동");
-        map.put("regNo","860824-1655068");
-        Results results = scrapService.userInfoScrap();
-        return results;
+    public TaxInformation scrap(PrincipalDetails principal){
+        User user = userService.getById(principal.getUser().getId());
+        return scrapService.userInfoScrap(user);
 
     }
 }

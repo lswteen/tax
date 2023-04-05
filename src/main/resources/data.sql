@@ -10,6 +10,24 @@ CREATE TABLE `refresh_tokens` (
   KEY `idx_token` (`token`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+DROP TABLE IF EXISTS `tax_information`;
+CREATE TABLE `tax_information`
+(
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `user_id` bigint(20) NOT NULL,
+  `calculated_tax` bigint(20) NOT NULL,
+  `insurance_premium` bigint(20) NOT NULL,
+  `education_expense` bigint(20) NOT NULL,
+  `donation` bigint(20) NOT NULL,
+  `medical_expense` bigint(20) NOT NULL,
+  `retirement_pension` bigint(20) NOT NULL,
+  `total_salary` bigint(20) NOT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `unique_user_id` (`user_id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
 DROP TABLE IF EXISTS `user_roles`;
 CREATE TABLE `user_roles` (
   `user_id` bigint(20) NOT NULL,

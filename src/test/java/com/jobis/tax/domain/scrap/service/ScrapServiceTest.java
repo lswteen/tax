@@ -38,8 +38,8 @@ class ScrapServiceTest {
             //jsonString = httpClient.sendPost("홍길동","860824-1655068");
             //jsonString = httpClient.sendPost("김둘리","921108-1582816");
             //jsonString = httpClient.sendPost("마징가","880601-2455116");
-            jsonString = httpClient.sendPost("베지터","910411-1656116");
-            //jsonString = httpClient.sendPost("손오공","820326-2715702");
+            //jsonString = httpClient.sendPost("베지터","910411-1656116");
+            jsonString = httpClient.sendPost("손오공","820326-2715702");
 
             jsonObject = (JSONObject) jsonParser.parse(jsonString);
         } catch (IOException | ParseException e) {
