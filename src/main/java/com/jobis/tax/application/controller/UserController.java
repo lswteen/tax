@@ -4,8 +4,6 @@ import com.jobis.tax.application.response.ScrapResponse;
 import com.jobis.tax.application.response.UserResponse;
 import com.jobis.tax.application.security.dto.PrincipalDetails;
 import com.jobis.tax.application.service.UserAppService;
-import com.jobis.tax.domain.scrap.entity.TaxInformation;
-import com.jobis.tax.domain.scrap.service.IncomeTaxInfo;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
