@@ -35,15 +35,17 @@ Jobis Tax Application은 사용자 인증 및 회원 정보 스크랩을 위한 
 https://angryfullstack.tistory.com/53
 
 ## User 서비스
-Springboot 프레임워크에서 가장 보편적으로 사용되고 다양한 End point가 있어 Security 사용하였습니다.
-러닝커브가 높은편이라서 항상 만들때마다 쉽지않지만 구성하고 날때마다 재미있네요
 Spring 2.7.10 버전과 Swagger2 가 안되서 SpringDoc설정하면서 Swagger3 버전에 나올수있도록 다양한 삽질을 경험하였습니다.
 
 가장 어려웠던 부분은 로그인후 /me 에서 Bearer 이부분 swagger2는 bearer 인데 대소문자구별때문에 6시간이 날라가네요 ㅜㅡㅜ
-해당 내용 정리했었던 링크 공유합니다.
+
+## Auth 서비스
+spring security 에서 제공하는 인증 처리 기능을 이용해서 작업하였습니다.
+
+Springboot 프레임워크에서 가장 보편적으로 사용되고 다양한 End point가 있어 Security 사용하였습니다.
+러닝커브가 높은편이라서 항상 만들때마다 쉽지않지만 구성하고 성공하면 재미있지만 과정은  호락호락하지 않다는 생각입니다.
 
 https://angryfullstack.tistory.com/58
-
 
 ## RefundCalculation 서비스
 `RefundCalculation` 서비스는 세금 환급 정보를 계산하는 데 사용되는 클래스입니다. 이 서비스는 다양한 세금 공제 항목을 사용하여 최종 세액을 계산하고, 퇴직연금 세액 공제를 처리합니다.
@@ -68,15 +70,15 @@ https://angryfullstack.tistory.com/58
 다양한 케이스에 단점이 테스트되고난뒤 사용되는것이 필요하다는 판단입니다.
 
 
-
-
 ## 주민등록번호 암호화
 jpa 에서 제공되는 @Converter 사용하였습니다.
 해당 코드 장점은 간단하고 직관적이고 복잡도가 줄어듭니다.
 
+```java
 @Column(name="reg_no")
 @Convert(converter = StringCryptoConverter.class)
 private String regNo;
+```
 
 이렇게하면 별도 비지니스 로직처리없이 사용 가능하다는 겁니다.
 
@@ -92,7 +94,9 @@ private String regNo;
 
 ## 설정
 
-이 프로젝트의 주요 설정은 `application.yml` 파일에서 확인할 수 있습니다. 이 설정 파일에서는 다음과 같은 내용을 설정할 수 있습니다.
+이 프로젝트의 주요 설정은 `application.yml` 파일에서 확인할 수 있습니다.
+
+이 설정 파일에서는 다음과 같은 내용을 설정할 수 있습니다.
 
 - OpenAPI 설정 파일
 - JPA 설정
@@ -100,8 +104,7 @@ private String regNo;
 - 데이터 소스 설정
 - SpringDoc 설정
 - JWT 설정
-- 암호화 키 및 벡터 설정
-- 서버 설정
+- 암호화 키 및 벡터 설정 (수정필요)
 
 ## 빌드 및 실행 방법
 
