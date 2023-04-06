@@ -1,8 +1,6 @@
 spring:
   config:
     import: open-api.yml
-#  mvc:
-#    static-path-pattern: /static/**
 
   jpa:
     show-sql: true
@@ -52,20 +50,12 @@ springdoc:
 jwt:
   secret: c2lsdmVybmluZS10ZWNoLXNwcmluZy1ib290LWp3dC10dX
 
-feign:
-  client:
-    config:
-      default:
-        connectTimeout: 60_000
-        readTimeout: 3_000
-    default-to-properties: false # @Configuration 설정으로 인해 default설정이 override 되지 못하게 함
-
 server:
   tomcat:
     threads:
       max: 2000
   forward-headers-strategy: FRAMEWORK
 
-cache:
-  maximum-size: 100
-  duration: 3000
+#cache:
+#  maximum-size: 100
+#  duration: 3000

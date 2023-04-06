@@ -125,11 +125,9 @@ public class UserAppService {
                 .build();
     }
 
-    @Transactional
     public ScrapResponse scrap(PrincipalDetails principal){
         User user = userService.getById(principal.getUser().getId());
         var taxInformation = scrapService.userInfoScrap(user);
-        scrapService.save(taxInformation);
         var incomeTaxInfo =  refundCalculation.refundCalculation(taxInformation);
 
         return ScrapResponse.builder()

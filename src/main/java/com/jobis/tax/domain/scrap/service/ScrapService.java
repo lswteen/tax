@@ -11,6 +11,10 @@ import lombok.RequiredArgsConstructor;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.Cache;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.caffeine.CaffeineCacheManager;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -24,6 +28,7 @@ import java.util.stream.Collectors;
 public class ScrapService {
     private final HttpClient httpClient;
     private final TaxRepository taxRepository;
+    private final CaffeineCacheManager caffeineCacheManager;
 
     public static double stringToDouble(String numberWithCommasAndDecimal) {
         var splitNumber = numberWithCommasAndDecimal.split("\\.");
@@ -40,7 +45,25 @@ public class ScrapService {
         return input.substring(0, 6) + "-" + input.substring(6);
     }
 
+    public TaxInformation getTaxInfoFromCache(User user) {
+        Cache cache = caffeineCacheManager.getCache("taxInformatioinCache");
+        if (cache != null) {
+            String key = user.getRegNo();
+            Cache.ValueWrapper wrapper = cache.get(key);
+            if (wrapper != null) {
+                return (TaxInformation) wrapper.get();
+            }
+        }
+        return null;
+    }
+
+    @Cacheable(value="taxInformatioinCache", key="#user.regNo")
     public TaxInformation userInfoScrap(User user){
+        TaxInformation cachedTaxInfo = getTaxInfoFromCache(user);
+        if (cachedTaxInfo != null) {
+            return cachedTaxInfo;
+        }
+
         String jsonString = "";
         JSONObject jsonObject = null;
         try {
@@ -91,7 +114,7 @@ public class ScrapService {
                 v->v.get("총지급액")
         ).collect(Collectors.joining(", "));
 
-        return TaxInformation.builder()
+        var taxInformation = TaxInformation.builder()
                 .user(user)
                 .calculatedTax(stringToDouble(calculatedTax))
                 .insurancePremium(stringToDouble(insurancePremium))
@@ -103,10 +126,12 @@ public class ScrapService {
                 .createdAt(LocalDateTime.now())
                 .updatedAt(LocalDateTime.now())
                 .build();
-    }
 
-    public TaxInformation save(TaxInformation taxInformation){
-        return taxRepository.save(taxInformation);
+        if (cachedTaxInfo == null) {
+            taxRepository.save(taxInformation);
+        }
+
+        return taxInformation;
     }
 
 }
