@@ -33,7 +33,7 @@ public class UserController {
 
     @Operation(
             summary = "스크랩",
-            description = "회원 토큰정보 정보 스크랩 기능을 제공합니다."
+            description = "회원세액정보 스크랩 기능을 제공합니다."
     )
     @SecurityRequirement(name = "Bearer Authentication")
     @PostMapping("/szs/scrap")
