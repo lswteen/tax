@@ -41,7 +41,7 @@ CREATE TABLE `users` (
   `email` varchar(50) NOT NULL,
   `gender` varchar(50) DEFAULT NULL,
   `name` varchar(50) NOT NULL,
-  `reg_no` varchar(13) NOT NULL,
+  `reg_no` varchar(255) NOT NULL,
   `nickname` varchar(50) NOT NULL,
   `password` varchar(255) NOT NULL,
   `phone_number` varchar(50) NOT NULL,

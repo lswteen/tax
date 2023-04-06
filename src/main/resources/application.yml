@@ -50,6 +50,10 @@ springdoc:
 jwt:
   secret: c2lsdmVybmluZS10ZWNoLXNwcmluZy1ib290LWp3dC10dX
 
+converter:
+  key: A1b2C3d4E5f6G7h8
+  vector: H8g7F6e5D4c3B2a1
+
 server:
   tomcat:
     threads:

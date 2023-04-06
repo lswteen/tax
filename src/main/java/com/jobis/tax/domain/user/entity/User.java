@@ -1,6 +1,7 @@
 package com.jobis.tax.domain.user.entity;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.jobis.tax.domain.user.repository.StringCryptoConverter;
 import com.jobis.tax.domain.user.type.UserGender;
 import com.jobis.tax.domain.user.type.UserRole;
 import lombok.*;
@@ -29,6 +30,7 @@ public class User {
     private String name;
 
     @Column(name="reg_no")
+    @Convert(converter = StringCryptoConverter.class)
     private String regNo;
 
     @Column
