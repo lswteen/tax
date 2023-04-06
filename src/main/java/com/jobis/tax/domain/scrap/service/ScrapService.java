@@ -33,10 +33,10 @@ public class ScrapService {
         var splitNumber = numberWithCommasAndDecimal.split("\\.");
         var numberWithCommas = splitNumber[0];
         var cleanNumber = numberWithCommas.chars()
-                .mapToObj(c -> (char) c)
-                .filter(c -> c != ',')
-                .map(String::valueOf)
-                .collect(Collectors.joining());
+            .mapToObj(c -> (char) c)
+            .filter(c -> c != ',')
+            .map(String::valueOf)
+            .collect(Collectors.joining());
         return Double.parseDouble(cleanNumber);
     }
 

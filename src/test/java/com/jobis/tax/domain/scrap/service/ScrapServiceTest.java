@@ -25,7 +25,6 @@ class ScrapServiceTest {
             //jsonString = httpClient.sendPost("손오공","820326-2715702");
     }
 
-
     @Test
     void 결정세액(){
         double calculatedTax = 3000000;     //jsonList > 산출세액
