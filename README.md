@@ -70,7 +70,7 @@ https://angryfullstack.tistory.com/58
 다양한 케이스에 단점이 테스트되고난뒤 사용되는것이 필요하다는 판단입니다.
 
 
-## 주민등록번호 암호화
+## 주민등록번호 암복호화
 jpa 에서 제공되는 @Converter 사용하였습니다.
 해당 코드 장점은 간단하고 직관적이고 복잡도가 줄어듭니다.
 
@@ -80,7 +80,7 @@ jpa 에서 제공되는 @Converter 사용하였습니다.
 private String regNo;
 ```
 
-이렇게하면 별도 비지니스 로직처리없이 사용 가능하다는 겁니다.
+이렇게하면 별도 비지니스 로직처리없이 사용 가능합니다.
 
 ## DB스키마
 ```mysql
@@ -148,6 +148,10 @@ CREATE TABLE `users` (
 - Lombok
 - H2 Database
 - SpringDoc OpenAPI UI
+- caffeineCache
+- Httpclient
+- JSONObject
+- Stream 콜렉션 
 
 ## 설정
 
