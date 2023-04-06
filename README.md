@@ -233,7 +233,9 @@ eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJTWlMiLCJhdXRoIjoiVVNFUiIsInVpZCI
 ### 회원정보 스크랩
 최초1회 key정보 주민등록번호 Cache 생성및 db등록 2957ms 응답시간
 ![스크린샷 2023-04-06 오후 11 32 07](https://user-images.githubusercontent.com/3292892/230410053-5def5fd8-c663-4fbb-8746-8bf9f3063bf7.png)
+
 Cache 존재하면 캐쉬로 처리 86ms 응답시간
+
 ![스크린샷 2023-04-06 오후 11 32 15](https://user-images.githubusercontent.com/3292892/230410687-f08d8cbb-bb8c-4077-98b4-e72a8898d008.png)
 
 
