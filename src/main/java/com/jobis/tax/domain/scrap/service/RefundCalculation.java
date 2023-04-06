@@ -1,7 +1,6 @@
 package com.jobis.tax.domain.scrap.service;
 
 import com.jobis.tax.domain.scrap.entity.TaxInformation;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.text.DecimalFormat;
