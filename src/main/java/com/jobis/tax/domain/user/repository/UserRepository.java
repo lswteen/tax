@@ -10,11 +10,11 @@ import java.util.Optional;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
-    Optional<User> findByEmail(String email);
+    Optional<User> findByUserId(String userId);
 
-    Page<User> findByNameContainingOrEmailContaining(String name, String email, Pageable pageable);
-
-    Page<User> findByEmailContaining(String email, Pageable pageable);
-
-    Page<User> findByNameContaining(String name, Pageable pageable);
+//    Page<User> findByNameContainingOrUserIdContaining(String name, String userId, Pageable pageable);
+//
+//    Page<User> findByUserIdContaining(String userId, Pageable pageable);
+//
+//    Page<User> findByNameContaining(String name, Pageable pageable);
 }

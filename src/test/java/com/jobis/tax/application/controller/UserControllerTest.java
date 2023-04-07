@@ -51,8 +51,9 @@ class UserControllerTest {
                 .andExpect(jsonPath("name").exists())
                 .andExpect(jsonPath("nickname").exists())
                 .andExpect(jsonPath("phoneNumber").exists())
-                .andExpect(jsonPath("email").exists())
+                .andExpect(jsonPath("userId").exists())
         ;
     }
+
 
 }

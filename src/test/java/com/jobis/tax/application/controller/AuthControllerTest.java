@@ -3,15 +3,19 @@ package com.jobis.tax.application.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jobis.tax.application.request.SignInRequest;
 import com.jobis.tax.application.request.SignUpRequest;
+import com.jobis.tax.application.request.TokenRequest;
+import com.jobis.tax.application.response.TokenResponse;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -41,7 +45,7 @@ class AuthControllerTest {
                 .andExpect(jsonPath("name").exists())
                 .andExpect(jsonPath("nickname").exists())
                 .andExpect(jsonPath("phoneNumber").exists())
-                .andExpect(jsonPath("email").exists())
+                .andExpect(jsonPath("userId").exists())
                 .andExpect(jsonPath("regNo").exists())
                 .andDo(MockMvcResultHandlers.print())
                 .andReturn();
@@ -78,6 +82,40 @@ class AuthControllerTest {
     @Test
     void signIn_success() throws Exception {
         signIn();
+    }
+
+    @Test
+    void refresh_success() throws Exception {
+        String content = signIn().getResponse().getContentAsString();
+        TokenResponse tokenResponse = objectMapper.readValue(content, TokenResponse.class);
+
+        TokenRequest tokenRequest = new TokenRequest(tokenResponse.getAccessToken(), tokenResponse.getRefreshToken());
+
+        mockMvc.perform(post("/szs/reissuance")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(tokenRequest)))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("grantType").exists())
+                .andExpect(jsonPath("accessToken").exists())
+                .andExpect(jsonPath("accessTokenExpiresIn").exists())
+                .andExpect(jsonPath("refreshToken").exists())
+                .andDo(MockMvcResultHandlers.print())
+                .andReturn();
+    }
+
+    @Test
+    void signout_success() throws Exception {
+        String content = signIn().getResponse().getContentAsString();
+        TokenResponse tokenResponse = objectMapper.readValue(content, TokenResponse.class);
+
+        TokenRequest tokenRequest = new TokenRequest(tokenResponse.getAccessToken(), tokenResponse.getRefreshToken());
+
+        mockMvc.perform(delete("/szs/signout")
+                        .header(HttpHeaders.AUTHORIZATION, "Bearer " + tokenRequest.getAccessToken()))
+                .andDo(print())
+                .andExpect(status().isOk())
+        ;
     }
 
 }

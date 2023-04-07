@@ -25,8 +25,8 @@ public class UserService {
     private final UserRepository userRepository;
     private final RefreshTokenRepository refreshTokenRepository;
 
-    public User getByEmail(String userId) {
-        return userRepository.findByEmail(userId)
+    public User getByUserId(String userId) {
+        return userRepository.findByUserId(userId)
                 .orElseThrow(() -> new ApiException(ServiceErrorType.NOT_FOUND));
     }
 
@@ -70,19 +70,19 @@ public class UserService {
         refreshTokenRepository.deleteAll(refreshTokens);
     }
 
-    public Page<User> getSearchByPageable(String name, String email, Pageable pageable) {
-        Page<User> user;
-
-        if (Objects.nonNull(name) && Objects.nonNull(email)) {
-            user = userRepository.findByNameContainingOrEmailContaining(name, email, pageable);
-        } else if (Objects.nonNull(email)) {
-            user = userRepository.findByEmailContaining(email, pageable);
-        } else if (Objects.nonNull(name)) {
-            user = userRepository.findByNameContaining(name, pageable);
-        } else {
-            user = userRepository.findAll(pageable);
-        }
-
-        return user;
-    }
+//    public Page<User> getSearchByPageable(String name, String userId, Pageable pageable) {
+//        Page<User> user;
+//
+//        if (Objects.nonNull(name) && Objects.nonNull(userId)) {
+//            user = userRepository.findByNameContainingOrUserIdContaining(name, userId, pageable);
+//        } else if (Objects.nonNull(userId)) {
+//            user = userRepository.findByUserIdContaining(userId, pageable);
+//        } else if (Objects.nonNull(name)) {
+//            user = userRepository.findByNameContaining(name, pageable);
+//        } else {
+//            user = userRepository.findAll(pageable);
+//        }
+//
+//        return user;
+//    }
 }

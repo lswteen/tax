@@ -26,23 +26,25 @@ public class CustomWebApplicationInitializer {
 
 
                 User hong = User.signUpBuilder()
-                        .email("hong@gmail.com")
+                        .userId("hong@gmail.com")
                         .password(passwordEncoder.encode("abcde가A1!"))
                         .name("홍길동")
                         .regNo("8608241655068")
-                        .phoneNumber("01012345678")
-                        .nickname("renzo")
+                        .phoneNumber("01012343378")
+                        .nickname("hong")
+                        .gender("MALE")
                         .build();
 
                 userRepository.save(hong);
 
                 User kim = User.signUpBuilder()
-                        .email("kim@gmail.com")
+                        .userId("kim@gmail.com")
                         .password(passwordEncoder.encode("abcde가A1!"))
                         .name("김둘리")
                         .regNo("9211081582816")
-                        .phoneNumber("01012345678")
-                        .nickname("renzo")
+                        .phoneNumber("01012344478")
+                        .nickname("kim")
+                        .gender("MALE")
                         .build();
 
                 userRepository.save(kim);

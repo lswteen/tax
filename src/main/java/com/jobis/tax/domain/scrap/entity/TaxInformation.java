@@ -21,7 +21,7 @@ public class TaxInformation {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_mapping_id")
     private User user;
 
     @Column(name = "calculated_tax")

@@ -2,6 +2,7 @@ plugins {
 	id 'java'
 	id 'org.springframework.boot' version '2.7.10'
 	id 'io.spring.dependency-management' version '1.0.15.RELEASE'
+	id 'com.github.johnrengelman.shadow' version '7.1.2'
 }
 
 group = 'com.jobis.tax'
@@ -48,9 +49,7 @@ dependencies {
 	compileOnly 'org.projectlombok:lombok'
 	runtimeOnly 'com.h2database:h2'
 
-
 	implementation 'org.springdoc:springdoc-openapi-ui:1.6.15'
-
 
 	implementation 'io.jsonwebtoken:jjwt-api:0.11.2'
 	implementation 'io.jsonwebtoken:jjwt-impl:0.11.2'
@@ -73,4 +72,19 @@ javadoc {
 
 tasks.named('test') {
 	useJUnitPlatform()
+}
+
+shadowJar {
+	archiveBaseName.set('tax-jar')
+	archiveVersion.set('')
+	archiveClassifier.set('')
+	manifest {
+		attributes 'Main-Class': 'com.jobis.tax.TaxApplication'
+	}
+}
+
+jar {
+	manifest {
+		attributes 'Main-Class': 'com.jobis.tax.TaxApplication'
+	}
 }

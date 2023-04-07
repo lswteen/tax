@@ -19,6 +19,7 @@ import java.util.stream.Stream;
 
 @Entity(name = "users")
 @Getter
+@Setter
 @NoArgsConstructor
 public class User {
     @Id
@@ -42,8 +43,8 @@ public class User {
     @Column(name = "phone_number")
     private String phoneNumber;
 
-    @Column(unique = true)
-    private String email;
+    @Column(unique = true, name="user_id")
+    private String userId;
 
     @Column
     @Enumerated(EnumType.STRING)
@@ -51,7 +52,7 @@ public class User {
 
     @CollectionTable(
             name = "user_roles",
-            joinColumns = @JoinColumn(name = "user_id")
+            joinColumns = @JoinColumn(name = "user_mapping_id")
     )
     @ElementCollection(fetch = FetchType.EAGER)
     @Enumerated(EnumType.STRING)
@@ -70,12 +71,12 @@ public class User {
     private LocalDateTime updatedAt;
 
     @Builder(builderMethodName = "signUpBuilder")
-    public User(String name, String nickname, String password, String phoneNumber, String email, String regNo, String gender) {
+    public User(String name, String nickname, String password, String phoneNumber, String userId, String regNo, String gender) {
         this.name = name;
         this.nickname = nickname;
         this.password = password;
         this.phoneNumber = phoneNumber;
-        this.email = email;
+        this.userId = userId;
         this.regNo = regNo;
         this.gender = UserGender.convertFrom(gender);
         this.roles = Stream.of(UserRole.USER)

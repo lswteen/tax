@@ -39,7 +39,7 @@ public class UserAppService {
     public TokenResponse signIn(SignInRequest signInRequest) {
         // 1. ID/PW 로 AuthenticationToken 생성
         UsernamePasswordAuthenticationToken authenticationToken =
-                new UsernamePasswordAuthenticationToken(signInRequest.getEmail(), signInRequest.getPassword());
+                new UsernamePasswordAuthenticationToken(signInRequest.getUserId(), signInRequest.getPassword());
         // 2. 사용자 검증
         Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
         // 3.JWT 토큰 생성
@@ -80,7 +80,7 @@ public class UserAppService {
         signUpRequest.validation();
 
         User user = User.signUpBuilder()
-                .email(signUpRequest.getEmail())
+                .userId(signUpRequest.getUserId())
                 .regNo(signUpRequest.getRegNo())
                 .name(signUpRequest.getName())
                 .nickname(signUpRequest.getNickname())
@@ -94,7 +94,7 @@ public class UserAppService {
         return UserResponse.builder()
                 .id(newUser.getId())
                 .gender(newUser.getGenderAsString())
-                .email(newUser.getEmail())
+                .userId(newUser.getUserId())
                 .regNo(newUser.getRegNo())
                 .name(newUser.getName())
                 .nickname(newUser.getNickname())
@@ -115,7 +115,7 @@ public class UserAppService {
         return UserResponse.builder()
                 .id(user.getId())
                 .gender(user.getGenderAsString())
-                .email(user.getEmail())
+                .userId(user.getUserId())
                 .name(user.getName())
                 .regNo(user.getRegNo())
                 .nickname(user.getNickname())

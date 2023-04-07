@@ -37,7 +37,17 @@ https://angryfullstack.tistory.com/53
 ## User 서비스
 Spring 2.7.10 버전과 Swagger2 가 안되서 SpringDoc설정하면서 Swagger3 버전에 나올수있도록 다양한 삽질을 경험하였습니다.
 
-가장 어려웠던 부분은 로그인후 /me 에서 Bearer 이부분 swagger2는 bearer 인데 대소문자구별때문에 6시간이 날라가네요 ㅜㅡㅜ
+생각도 못한 부분에서 삽질한 상황은 로그인후 /me 에서 Bearer 이부분 swagger2는 bearer 인데 대소문자구별때문에 6시간이 날라가네요 ㅜㅡㅜ
+
+SpringDOC 적용방법
+
+https://angryfullstack.tistory.com/69
+
+User 기능은 JWT 토근 취약점으로 인한 문제를 해결하기위해서 
+리플래쉬 토근 기능을 추가하였습니다.
+
+유저권한은 관리자,블랙컨슈머 등 다양한 접근권한이 필요할것같아 추가하였습니다.
+
 
 ## Auth 서비스
 spring security 에서 제공하는 인증 처리 기능을 이용해서 작업하였습니다.
@@ -49,7 +59,6 @@ https://angryfullstack.tistory.com/58
 
 ## RefundCalculation 서비스
 `RefundCalculation` 서비스는 세금 환급 정보를 계산하는 데 사용되는 클래스입니다. 이 서비스는 다양한 세금 공제 항목을 사용하여 최종 세액을 계산하고, 퇴직연금 세액 공제를 처리합니다.
-
 
 ## Scrap 서비스
 `userInfoScrap` 메소드는 유저 이름,주민등록번호 기준으로 약 1초-20초까지 Response가 느려질수있는 코드입니다.
@@ -65,10 +74,9 @@ https://angryfullstack.tistory.com/58
 정책이나 운영시 고려해야되는 부분이지만 현재는 이렇게 구현하였습니다.
 캐쉬 데이터는 10분으로 제약걸어둔상태입니다.
 
-로컬캐쉬로 ehcache를 고려하였는데 caffeineCache 가 성능적으로 뛰어난 지표를 제공하여 사용하게되었습니다.
-서비스 운영환경에서는 안정도가 우선이기때문에 chcache를 대체할수있는지는 
-다양한 케이스에 단점이 테스트되고난뒤 사용되는것이 필요하다는 판단입니다.
-
+로컬캐쉬로 ehcache를 고려하였는데 caffeineCache 가 성능적으로 뛰어난 지표를 제공하여 사용하게 되었습니다.
+서비스 운영환경에서는 안정도 최우선이기 때문에 ehcache를 대체할수있는지 
+다양한 케이스 테스트 이후 사용되는것이 필요하다는 판단입니다.
 
 ## 주민등록번호 암복호화
 jpa 에서 제공되는 @Converter 사용하였습니다.
@@ -86,55 +94,55 @@ private String regNo;
 ```mysql
 DROP TABLE IF EXISTS `refresh_tokens`;
 CREATE TABLE `refresh_tokens` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `user_id` bigint(20) NOT NULL,
-  `token` varchar(255) DEFAULT NULL,
-  `created_at` datetime NOT NULL,
-  `updated_at` datetime NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `unique_user_id_token` (`user_id`,`token`) USING BTREE,
-  KEY `idx_token` (`token`) USING BTREE
+    `id` bigint(20) NOT NULL AUTO_INCREMENT,
+    `user_mapping_id` bigint(20) NOT NULL,
+    `token` varchar(255) DEFAULT NULL,
+    `created_at` datetime NOT NULL,
+    `updated_at` datetime NOT NULL,
+    PRIMARY KEY (`id`),
+    UNIQUE KEY `unique_user_mapping_id_token` (`user_mapping_id`,`token`) USING BTREE,
+    KEY `idx_token` (`token`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 DROP TABLE IF EXISTS `tax_information`;
 CREATE TABLE `tax_information`
 (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `user_id` bigint(20) NOT NULL,
-  `calculated_tax` bigint(20) NOT NULL,
-  `insurance_premium` bigint(20) NOT NULL,
-  `education_expense` bigint(20) NOT NULL,
-  `donation` bigint(20) NOT NULL,
-  `medical_expense` bigint(20) NOT NULL,
-  `retirement_pension` bigint(20) NOT NULL,
-  `total_salary` bigint(20) NOT NULL,
-  `created_at` datetime NOT NULL,
-  `updated_at` datetime NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `unique_user_id` (`user_id`) USING BTREE
+    `id` bigint(20) NOT NULL AUTO_INCREMENT,
+    `user_mapping_id` bigint(20) NOT NULL,
+    `calculated_tax` bigint(20) NOT NULL,
+    `insurance_premium` bigint(20) NOT NULL,
+    `education_expense` bigint(20) NOT NULL,
+    `donation` bigint(20) NOT NULL,
+    `medical_expense` bigint(20) NOT NULL,
+    `retirement_pension` bigint(20) NOT NULL,
+    `total_salary` bigint(20) NOT NULL,
+    `created_at` datetime NOT NULL,
+    `updated_at` datetime NOT NULL,
+    PRIMARY KEY (`id`),
+    UNIQUE KEY `unique_user_mapping_id` (`user_mapping_id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 DROP TABLE IF EXISTS `user_roles`;
 CREATE TABLE `user_roles` (
-  `user_id` bigint(20) NOT NULL,
-  `roles` varchar(255) NOT NULL,
-  PRIMARY KEY (`user_id`)
+    `user_mapping_id` bigint(20) NOT NULL,
+    `roles` varchar(255) NOT NULL,
+    PRIMARY KEY (`user_mapping_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 DROP TABLE IF EXISTS `users`;
 CREATE TABLE `users` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `email` varchar(50) NOT NULL,
-  `gender` varchar(50) DEFAULT NULL,
-  `name` varchar(50) NOT NULL,
-  `reg_no` varchar(255) NOT NULL,
-  `nickname` varchar(50) NOT NULL,
-  `password` varchar(255) NOT NULL,
-  `phone_number` varchar(50) NOT NULL,
-  `created_at` datetime NOT NULL,
-  `updated_at` datetime NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `unique_email` (`email`) USING BTREE
+    `id` bigint(20) NOT NULL AUTO_INCREMENT,
+    `user_id` varchar(50) NOT NULL,
+    `gender` varchar(50) DEFAULT NULL,
+    `name` varchar(50) NOT NULL,
+    `reg_no` varchar(255) NOT NULL,
+    `nickname` varchar(50) NOT NULL,
+    `password` varchar(255) NOT NULL,
+    `phone_number` varchar(50) NOT NULL,
+    `created_at` datetime NOT NULL,
+    `updated_at` datetime NOT NULL,
+    PRIMARY KEY (`id`),
+    UNIQUE KEY `unique_user_id` (`user_id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 ```
@@ -142,16 +150,17 @@ CREATE TABLE `users` (
 
 ### 주요 기술 스택
 
-- Spring Boot
+- Spring Boot 2.7.10
+- JPA 
 - Spring Security
 - Hibernate Validator
 - Lombok
 - H2 Database
-- SpringDoc OpenAPI UI
+- SpringDoc OpenAPI UI Swagger 3
 - caffeineCache
 - Httpclient
 - JSONObject
-- Stream 콜렉션 
+- Stream Collection 
 
 ## 설정
 
@@ -174,21 +183,41 @@ CREATE TABLE `users` (
 <img width="945" alt="스크린샷 2023-04-06 오후 11 10 02" src="https://user-images.githubusercontent.com/3292892/230403168-b2a00d49-4d44-44dd-a48e-14cbc2510c05.png">
 
 ### h2 DB
-- mac 기준 : ~/h2db/tax
+- mac 기준 Path : ~/h2db/tax
+```yaml
+  datasource:
+    write:
+      driverClassName: org.h2.Driver
+      jdbcUrl: jdbc:h2:~/h2db/tax;AUTO_SERVER=true
+      username: sa
+      password:
+      maximumPoolSize: 30
+      minimumIdle: 5
+      poolName: writedbjobis
+      readOnly: false
+    read:
+      driverClassName: org.h2.Driver
+      jdbcUrl: jdbc:h2:~/h2db/tax;AUTO_SERVER=true
+      username: sa
+      password:
+      maximumPoolSize: 30
+      minimumIdle: 5
+      poolName: readdbjobis
+      readOnly: true
+```
 - id/pw 없음
 - Embedded
 - AUTO_SERVER=true 여러개 접근가능옵션
 
 <img width="693" alt="스크린샷 2023-04-06 오후 11 11 05" src="https://user-images.githubusercontent.com/3292892/230403412-da4a57c1-6535-4f17-aeb3-b6281025dc29.png">
 
-### Run 하면 홍길동, 김둘리 저장되게 설정하였습니다. 참고하세요!!
-gradle 구동시 Test case 로직 controller 부터 확인되게 작업하였습니다.
-<img width="718" alt="스크린샷 2023-04-06 오후 11 14 20" src="https://user-images.githubusercontent.com/3292892/230404424-2f2151f2-03b5-4164-a837-a897714dadea.png">
-
 ###h2 web console 접근허용 주민번호 암호화 된 Row 확인
 http://localhost:8080/h2/
 
-![스크린샷 2023-04-06 오후 11 19 12](https://user-images.githubusercontent.com/3292892/230405724-6d5531c5-a858-4dee-a165-38f0c8a58de1.png)
+### Run 하면 홍길동, 김둘리 저장되게 설정하였습니다. 참고하세요!!
+gradle 구동시 Test case 로직 controller 부터 확인되게 작업하였습니다.
+<img width="1141" alt="스크린샷 2023-04-07 오전 9 57 35" src="https://user-images.githubusercontent.com/3292892/230519263-88d3bc74-7250-4aa7-9145-8c5f89d5c73c.png">
+
 
 ### Spring Doc Swagger-ui
 http://localhost:8080/swagger-ui/index.html
@@ -203,24 +232,23 @@ Request DTO
   "nickname": "ma",
   "password": "abcde가A1!",
   "phoneNumber": "01038183131",
-  "email": "ma@gmail.com",
+  "userId": "ma@gmail.com",
   "regNo": "8806012455116",
   "gender": "MAIL"
 }
 ```
-![스크린샷 2023-04-06 오후 11 27 08](https://user-images.githubusercontent.com/3292892/230407985-28b4e82a-d77e-49d8-a97e-39dc870d18c8.png)
-
-![스크린샷 2023-04-06 오후 11 28 30](https://user-images.githubusercontent.com/3292892/230408316-55943c01-e7ef-41e8-8edd-1abaf1923ee3.png)
+<img width="1400" alt="스크린샷 2023-04-07 오전 9 54 44" src="https://user-images.githubusercontent.com/3292892/230519001-f38d620d-75f9-42db-8ec2-4b4dcf870f26.png">
+<img width="1227" alt="스크린샷 2023-04-07 오전 9 55 39" src="https://user-images.githubusercontent.com/3292892/230519060-e4cac2c8-07b7-4e84-bd7b-94824d682124.png">
 
 ### 로그인 인증토근 JWT 획득
 Request DTO
 ```json
 {
-  "email": "hong@gmail.com",
+  "userId": "hong@gmail.com",
   "password": "abcde가A1!"
 }
 ```
-![스크린샷 2023-04-06 오후 11 23 06](https://user-images.githubusercontent.com/3292892/230406912-f5a38cae-7ced-4257-b89b-4fcdbe51d5cc.png)
+<img width="1392" alt="스크린샷 2023-04-07 오전 9 53 07" src="https://user-images.githubusercontent.com/3292892/230518866-d6c1efd6-6fa6-4930-80f4-7e8ac57f515f.png">
 
 ### 회원정보 조회
 인증토큰 header 등록
@@ -228,7 +256,7 @@ Request DTO
 eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJTWlMiLCJhdXRoIjoiVVNFUiIsInVpZCI6MSwiZXhwIjoxNjgwNzkyNzcxfQ.VThskKbxGhdAgjxXJAYwbwYPDekSVleLzWwettanemY
 ```
 ![스크린샷 2023-04-06 오후 11 30 10](https://user-images.githubusercontent.com/3292892/230409334-05da0e62-a5c4-4356-9078-2bb02e94f8e8.png)
-![스크린샷 2023-04-06 오후 11 31 17](https://user-images.githubusercontent.com/3292892/230409531-32167cfa-ddf0-4144-884f-2a51f426ee44.png)
+<img width="1402" alt="스크린샷 2023-04-07 오전 9 49 48" src="https://user-images.githubusercontent.com/3292892/230518786-8d5422d6-fec6-4970-9cfc-3dccda46ada5.png">
 
 ### 회원정보 스크랩
 최초1회 key정보 주민등록번호 Cache 생성및 db등록 2957ms 응답시간
