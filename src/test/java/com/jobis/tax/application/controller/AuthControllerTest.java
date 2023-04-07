@@ -5,24 +5,35 @@ import com.jobis.tax.application.request.SignInRequest;
 import com.jobis.tax.application.request.SignUpRequest;
 import com.jobis.tax.application.request.TokenRequest;
 import com.jobis.tax.application.response.TokenResponse;
+import com.jobis.tax.core.exception.ApiException;
+import com.jobis.tax.core.type.ServiceErrorType;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
+import org.springframework.transaction.annotation.Transactional;
 
+import static org.junit.Assert.assertSame;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 @SpringBootTest
 @AutoConfigureMockMvc
+@Transactional
+@ExtendWith(SpringExtension.class)
 class AuthControllerTest {
 
     @Autowired
@@ -49,6 +60,28 @@ class AuthControllerTest {
                 .andExpect(jsonPath("regNo").exists())
                 .andDo(MockMvcResultHandlers.print())
                 .andReturn();
+    }
+
+    @Test
+    void testInvalidRegNo() {
+        SignUpRequest signUpRequest = new SignUpRequest(
+                "제임스",
+                "james",
+                "P@ssw0rd123!",
+                "01012345678",
+                "james@gmail.com",
+                "1234567890123", // Invalid 주민번호
+                "MALE"
+        );
+
+        ApiException exception = assertThrows(
+                ApiException.class,
+                signUpRequest::validation,
+                "허용된 주민등록번호가 아닙니다."
+        );
+
+        assertSame(ServiceErrorType.INVALID_USER_REG_NO.getMessage(), exception.getMessage(),
+                "허용된 주민등록번호가 아닙니다.");
     }
 
 
@@ -78,6 +111,7 @@ class AuthControllerTest {
                 .andDo(print())
                 .andExpect(status().isUnauthorized());
     }
+
 
     @Test
     void signIn_success() throws Exception {
