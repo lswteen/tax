@@ -1,8 +1,8 @@
-# 프로젝트 이름: Jobis Tax Application
+# 프로젝트 이름: Tax Application
 
 ## 소개
 
-Jobis Tax Application은 사용자 인증 및 회원 정보 스크랩을 위한 RESTful API를 제공하는 웹 애플리케이션입니다.
+Tax Application은 사용자 인증 및 회원 정보 스크랩을 위한 RESTful API를 제공하는 웹 애플리케이션입니다.
 이 애플리케이션은 Spring Boot, Spring Security, Hibernate Validator, HttpClient 등의 기술을 사용하여 구축 되었습니다.
 회원 관련 기능, 인증 관련 기능 등의 엔드포인트를 제공합니다.
 

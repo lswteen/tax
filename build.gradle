@@ -88,3 +88,8 @@ jar {
 		attributes 'Main-Class': 'com.jobis.tax.TaxApplication'
 	}
 }
+
+bootJar {
+	archiveBaseName = 'tax-springboot-app'
+	archiveVersion = '0.0.1'
+}
