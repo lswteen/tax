@@ -1,0 +1,4 @@
+openApi:
+  szs:
+    baseUri: https://codetest.3o3.co.kr/v2/scrap
+
