@@ -3,6 +3,7 @@ plugins {
 	id 'org.springframework.boot' version '2.7.10'
 	id 'io.spring.dependency-management' version '1.0.15.RELEASE'
 	id 'com.github.johnrengelman.shadow' version '7.1.2'
+	id 'com.palantir.docker' version '0.25.0'
 }
 
 group = 'com.jobis.tax'
@@ -93,3 +94,10 @@ bootJar {
 	archiveBaseName = 'tax-springboot-app'
 	archiveVersion = '0.0.1'
 }
+
+docker {
+	name "my-spring-boot-app:${version}"
+	files "Dockerfile"
+	buildArgs(["JAR_FILE": "${bootJar.archiveFileName.get()}"])
+}
+
